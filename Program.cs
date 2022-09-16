@@ -21,3 +21,25 @@
 // Dictionaries, men då får du kolla upp lite själv (se “Resurser” nedan)
 
 // --------------------------------------------------------------------------------------------------
+
+// Skriv ut banner
+
+// Skriv ut Receptet
+
+// while loop to keep the program running
+
+    // if user writes exit, program quit
+
+    // elseif user writes "remove"
+        // ask user what to remove
+        // check if in list
+        // doesnt exist = error
+        // else remove ingredient
+
+    // else user adds ingredient
+    // check if already in list
+        // if exists
+            // error
+        // else
+            // add ingredient
+
