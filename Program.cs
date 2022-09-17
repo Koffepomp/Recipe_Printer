@@ -22,24 +22,98 @@
 
 // --------------------------------------------------------------------------------------------------
 
-// Skriv ut banner
+// make dictionary to keep recipe and amount
+Dictionary<string, int> recipeList = new();
 
-// Skriv ut Receptet
+// create bool that keeps the main program loop active
+bool running = true;
+
+// Variable to change text colors
+ConsoleColor[] colors = (ConsoleColor[])ConsoleColor.GetValues(typeof(ConsoleColor));
 
 // while loop to keep the program running
+while (running)
+{
+    // Clear screen
+    Console.Clear();
+
+    // Print the header
+    ShowHeader();
+
+    // Print current recipe
+    ShowRecipeList();
+
+    // Ask user what ingredient to add
+    Console.Write("\nWhat ingredient would you like to add? ");
+    string userInputName = Console.ReadLine();
 
     // if user writes exit, program quit
+    if (userInputName == "exit")
+    {
+        running = false;
+        Console.WriteLine("\nThanks for using Koffes recipe list simulator 2022!");
+        Console.ReadLine();
+    }
 
     // elseif user writes "remove"
+    else if (userInputName == "remove")
+    {
         // ask user what to remove
+        Console.Write("\nWhat ingredient would you like to remove? ");
+        string userInputRemove = Console.ReadLine();
+        RemoveIngredientFromRecipe(userInputRemove);
+
         // check if in list
         // doesnt exist = error
         // else remove ingredient
+    }
 
-    // else user adds ingredient
-    // check if already in list
+    else
+    {
+        // else user adds ingredient
+        Console.Write("\nHow many of that ingredient do you want to add? ");
+        int userInputAmount = Convert.ToInt32(Console.ReadLine());
+        AddIngredientToRecipe(userInputName, userInputAmount);
+    
+            // check if already in list
         // if exists
-            // error
+        // error
         // else
-            // add ingredient
+        // add ingredient
+    }
+}
 
+void ShowHeader()
+{
+    Message(" -----------------------------\n|| RECIPE LIST SIMULATOR 2022 ||\n -----------------------------\n", 14);
+}
+
+void ShowRecipeList()
+{
+    Console.WriteLine("| AMOUNT - INGREDIENT |");
+    foreach (KeyValuePair<string, int> kvp in recipeList)
+    {
+        Console.WriteLine("    {1}        {0}",
+            kvp.Key, kvp.Value);
+    }
+}
+
+void Message(string msg, int color)
+{
+    Console.ForegroundColor = colors[color];
+    Console.WriteLine("\n" + msg);
+    Console.ForegroundColor = ConsoleColor.White;
+}
+
+void AddIngredientToRecipe(string name, int amount)
+{
+    recipeList.Add(name, amount);
+    Message("Added " + amount + " " + name + " to the recipe list!", 10);
+    Console.ReadLine();
+}
+void RemoveIngredientFromRecipe(string name)
+{
+    recipeList.Remove(name);
+    Message("Removed " + name + " from the recipe list!", 12);
+    Console.ReadLine();
+}
