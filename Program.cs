@@ -47,7 +47,7 @@ while (running)
     Console.Write("\nWhat ingredient would you like to add? ");
     string userInputName = Console.ReadLine();
 
-    // if user writes exit, program quit
+    // if user writes exit, application ends
     if (userInputName == "exit")
     {
         running = false;
@@ -62,24 +62,14 @@ while (running)
         Console.Write("\nWhat ingredient would you like to remove? ");
         string userInputRemove = Console.ReadLine();
         RemoveIngredientFromRecipe(userInputRemove);
-
-        // check if in list
-        // doesnt exist = error
-        // else remove ingredient
     }
 
     else
     {
         // else user adds ingredient
-        Console.Write("\nHow many of that ingredient do you want to add? ");
+        Console.Write("\nHow many {0} do you want to add? ", userInputName);
         int userInputAmount = Convert.ToInt32(Console.ReadLine());
         AddIngredientToRecipe(userInputName, userInputAmount);
-    
-            // check if already in list
-        // if exists
-        // error
-        // else
-        // add ingredient
     }
 }
 
@@ -93,8 +83,7 @@ void ShowRecipeList()
     Console.WriteLine("| AMOUNT - INGREDIENT |");
     foreach (KeyValuePair<string, int> kvp in recipeList)
     {
-        Console.WriteLine("    {1}        {0}",
-            kvp.Key, kvp.Value);
+        Console.WriteLine("    {1}        {0}", kvp.Key, kvp.Value);
     }
 }
 
@@ -107,13 +96,27 @@ void Message(string msg, int color)
 
 void AddIngredientToRecipe(string name, int amount)
 {
-    recipeList.Add(name, amount);
-    Message("Added " + amount + " " + name + " to the recipe list!", 10);
+    try
+    {
+        recipeList.Add(name, amount);
+        Message("Added " + amount + " " + name + " to the recipe list!", 10);
+    }
+    catch (ArgumentException)
+    {
+        Message(name + " already on the recipe list!", 12);
+    }
     Console.ReadLine();
 }
 void RemoveIngredientFromRecipe(string name)
 {
-    recipeList.Remove(name);
-    Message("Removed " + name + " from the recipe list!", 12);
+    if (!recipeList.ContainsKey(name))
+    {
+        Message(name + " is NOT on the recipe list!", 12);
+    }
+    else
+    {
+        recipeList.Remove(name);
+        Message("Removed " + name + " from the recipe list!", 12);
+    }
     Console.ReadLine();
 }
